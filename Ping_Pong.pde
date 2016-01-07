@@ -18,7 +18,7 @@ int paddleS; // first paddle speed
 boolean up, down;
 
 void setup() {
-  size(600, 600);
+  size(800, 600);
 
   x = width/2; // place x position of ball in middle of screen
   y = height/2; // place y position of ball in middle of screen
@@ -57,6 +57,20 @@ void draw() {
   // draw the first paddle
   fill(255);
   rect(paddleX, paddleY, paddleW, paddleH);
+  
+  // restrict paddle from leaving the board
+  if (paddleY - paddleH < 0) { // prevent paddle y from leaving top of screen
+    paddleY = paddleY + paddleS;
+  } else if (paddleY + paddleH > height) { // prevent paddle y from leaving bottom of screen
+    paddleY = paddleY - paddleS;
+  }
+  
+  // contact of paddle and ball
+  
+  // this code implements the physics of the hit detection, without the /2 the ball doesn't deflect off the paddle
+  if (x - w/2 < paddleX + paddleW/2 && y - y/2 < paddleY - paddleW/2 && y + h/2 > paddleY - paddleH/2) {
+    speedX = -speedX;
+  } 
   
   // move the paddle with if statement
   
