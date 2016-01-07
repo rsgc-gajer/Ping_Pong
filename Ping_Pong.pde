@@ -59,10 +59,12 @@ void draw() {
   rect(paddleX, paddleY, paddleW, paddleH);
   
   // move the paddle with if statement
+  
+  // + is down and - is up
   if(up) {
-    paddleY = paddleY - paddleS;
+    paddleY = paddleY - paddleS; // move the paddle upwards
   } else if (down) {
-    paddleY = paddleY + paddleS;
+    paddleY = paddleY + paddleS; // move the paddle downwards 
   }
 }
 
