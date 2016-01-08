@@ -23,6 +23,9 @@ int paddleY2; // second paddle Y position
 boolean up, down; // up and down of first paddle
 boolean up2, down2; // up and down of second paddle
 
+int score = 0; // track the first score
+int score1 = 0; // track the second paddle score
+
 void setup() {
   size(800, 600);
 
@@ -30,8 +33,8 @@ void setup() {
   y = height/2; // place y position of ball in middle of screen
   w = 50; // ball width 
   h = 50; // ball height
-  speedX = 3; // x speed of ball
-  speedY = 4; // y speed of ball
+  speedX = 4; // x speed of ball
+  speedY = 5; // y speed of ball
 
   // left paddle
   rectMode(CENTER); // center the rectangle
@@ -47,12 +50,29 @@ void setup() {
 
 void draw() {
   background(0);
+
+  // draw rect in middle
+  fill(255);
+  rect(width/2, height, 5, 1250);
+
+  // draw the ball 
   fill(255, 0, 0);
   ellipse(x, y, w, h);
+  
+  // score
+  textSize(20);
+  fill(255);
+  text(score, 100, 50);
+  text(score1, width-100, 50);
+  
 
   if ( x > width - w/2) { // send ball left if it hits right edge
+    score++;
+    setup(); // retsrat the paddle and the ball
     speedX = -speedX;
   } else if ( x < 0 + w/2) { // send ball right if it hits left edge
+    score1++;
+    setup(); // restart the paddle and the ball
     speedX = -speedX;
   } else if ( y > height - h/2) { // send ball down if it hits top edge
     speedY = -speedY;
@@ -85,8 +105,12 @@ void draw() {
 
   // this code implements the physics of the hit detection, without the /2 the ball doesn't deflect off the paddle
   if (x - w/2 < paddleX + paddleW/2 && y - h/2 < paddleY + paddleH/2 && y + h/2 > paddleY - paddleH/2) {
-    speedX = -speedX;
+    if (speedX < 0) {
+      speedX = -speedX;
+    }
   } else  if (x + w/2 > paddleX2 - paddleW/2 && y - h/2 < paddleY2 + paddleH/2 && y + h/2 > paddleY2 - paddleH/2) {
+    if ( speedX > 0) {
+    }
     speedX = -speedX;
   } 
 
@@ -117,14 +141,14 @@ void keyPressed() {
   }
 }
 
-  void keyReleased() {
-    if (key == 'w' || key == 'W') { 
-      up = false;
-    } else if (key == 's' || key == 'S') { 
-      down = false;
-    } else   if (keyCode == UP) { 
-      up2 = false;
-    } else if (keyCode == DOWN) { 
-      down2 = false;
-    }
+void keyReleased() {
+  if (key == 'w' || key == 'W') { 
+    up = false;
+  } else if (key == 's' || key == 'S') { 
+    down = false;
+  } else   if (keyCode == UP) { 
+    up2 = false;
+  } else if (keyCode == DOWN) { 
+    down2 = false;
   }
+}
