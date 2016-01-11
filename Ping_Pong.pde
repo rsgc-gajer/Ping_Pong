@@ -3,6 +3,7 @@
 
 // interesting note - can't add variables to fist paddle because program doesn't work
 
+
 // Defined Variables
 int x; // x position of ball
 int y; // y position of ball
@@ -28,6 +29,9 @@ int score1 = 0; // track the second paddle score
 
 final int p = keyCode; // final variable for pausing the game
 
+boolean gameOn; // makes the game begin and creates a starting screen
+boolean help; // creates a screen for help
+
 void setup() {
   size(800, 600);
 
@@ -51,87 +55,96 @@ void setup() {
 }
 
 void draw() {
-  frameRate(60);
-  background(0);
+  if (gameOn == true) {
+    frameRate(60);
+    background(0);
 
-  // draw rect in middle
-  fill(255);
-  rect(width/2, height, 5, 1250);
+    // draw rect in middle
+    fill(255);
+    rect(width/2, height, 5, 1250);
 
-  // draw the ball 
-  fill(255, 0, 0);
-  ellipse(x, y, w, h);
+    // draw the ball 
+    fill(255, 0, 0);
+    ellipse(x, y, w, h);
 
-  // score
-  textSize(20);
-  fill(255);
-  text(score, 100, 50);
-  text(score1, width-100, 50);
-
-
-  if ( x > width - w/2) { // send ball left if it hits right edge
-    score++;
-    setup(); // retsrat the paddle and the ball
-    speedX = -speedX;
-  } else if ( x < 0 + w/2) { // send ball right if it hits left edge
-    score1++;
-    setup(); // restart the paddle and the ball
-    speedX = -speedX;
-  } else if ( y > height - h/2) { // send ball down if it hits top edge
-    speedY = -speedY;
-  } else if ( y < 0 + h/2) { // send ball up if it hits bottom edge
-    speedY = -speedY;
-  }
-
-  x = x + speedX; // x speed of ball
-  y = y + speedY; // y speed of ball
-
-  // draw the first paddle
-  fill(255);
-  rect(paddleX, paddleY, paddleW, paddleH);
-  fill(0, 255, 0);
-  rect(paddleX2, paddleY2, paddleW, paddleH);
-
-  // restrict paddle from leaving the board
-  if (paddleY - paddleH < 0) { // prevent paddle y from leaving top of screen
-    paddleY = paddleY + paddleS;
-  } else if (paddleY + paddleH > height) { // prevent paddle y from leaving bottom of screen
-    paddleY = paddleY - paddleS;
-  } else if (paddleY2 - paddleH < 0) { // prevent paddle y2 from leaving top of screen
-    paddleY2 = paddleY2 + paddleS;
-  } else if (paddleY2 + paddleH > height) { // prevent paddle y2 from leaving bottom of screen
-    paddleY2 = paddleY2 - paddleS;
-  }
+    // score
+    textSize(20);
+    fill(255);
+    text(score, 100, 50);
+    text(score1, width-100, 50);
 
 
-  // contact of paddle and ball
-
-  // this code implements the physics of the hit detection, without the /2 the ball doesn't deflect off the paddle
-  if (x - w/2 < paddleX + paddleW/2 && y - h/2 < paddleY + paddleH/2 && y + h/2 > paddleY - paddleH/2) {
-    if (speedX < 0) {
+    if ( x > width - w/2) { // send ball left if it hits right edge
+      score++;
+      setup(); // retsrat the paddle and the ball
       speedX = -speedX;
+    } else if ( x < 0 + w/2) { // send ball right if it hits left edge
+      score1++;
+      setup(); // restart the paddle and the ball
+      speedX = -speedX;
+    } else if ( y > height - h/2) { // send ball down if it hits top edge
+      speedY = -speedY;
+    } else if ( y < 0 + h/2) { // send ball up if it hits bottom edge
+      speedY = -speedY;
     }
-  } else  if (x + w/2 > paddleX2 - paddleW/2 && y - h/2 < paddleY2 + paddleH/2 && y + h/2 > paddleY2 - paddleH/2) {
-    if ( speedX > 0) {
+
+    x = x + speedX; // x speed of ball
+    y = y + speedY; // y speed of ball
+
+    // draw the first paddle
+    fill(255);
+    rect(paddleX, paddleY, paddleW, paddleH);
+    fill(0, 255, 0);
+    rect(paddleX2, paddleY2, paddleW, paddleH);
+
+    // restrict paddle from leaving the board
+    if (paddleY - paddleH < 0) { // prevent paddle y from leaving top of screen
+      paddleY = paddleY + paddleS;
+    } else if (paddleY + paddleH > height) { // prevent paddle y from leaving bottom of screen
+      paddleY = paddleY - paddleS;
+    } else if (paddleY2 - paddleH < 0) { // prevent paddle y2 from leaving top of screen
+      paddleY2 = paddleY2 + paddleS;
+    } else if (paddleY2 + paddleH > height) { // prevent paddle y2 from leaving bottom of screen
+      paddleY2 = paddleY2 - paddleS;
     }
-    speedX = -speedX;
-  } 
 
-  // move the paddle with if statement
 
-  // + is down and - is up
-  if (up) {
-    paddleY = paddleY - paddleS; // move the paddle upwards
-  } else if (down) {
-    paddleY = paddleY + paddleS; // move the paddle downwards
-  }
-  if (up2) {
-    paddleY2 = paddleY2 - paddleS; // move the paddle upwards
-  } else if (down2) {
-    paddleY2 = paddleY2 + paddleS; // move the paddle downwards
+    // contact of paddle and ball
+
+    // this code implements the physics of the hit detection, without the /2 the ball doesn't deflect off the paddle
+    if (x - w/2 < paddleX + paddleW/2 && y - h/2 < paddleY + paddleH/2 && y + h/2 > paddleY - paddleH/2) {
+      if (speedX < 0) {
+        speedX = -speedX;
+      }
+    } else  if (x + w/2 > paddleX2 - paddleW/2 && y - h/2 < paddleY2 + paddleH/2 && y + h/2 > paddleY2 - paddleH/2) {
+      if ( speedX > 0) {
+      }
+      speedX = -speedX;
+    } 
+
+    // move the paddle with if statement
+
+    // + is down and - is up
+    if (up) {
+      paddleY = paddleY - paddleS; // move the paddle upwards
+    } else if (down) {
+      paddleY = paddleY + paddleS; // move the paddle downwards
+    }
+    if (up2) {
+      paddleY2 = paddleY2 - paddleS; // move the paddle upwards
+    } else if (down2) {
+      paddleY2 = paddleY2 + paddleS; // move the paddle downwards
+    }
+  } else if (gameOn == false) {
+    background(0); // make the black for the starting screen
+    textSize(50); 
+    text("Ping Pong", 280, 250);
+    textSize(25);
+    text("By: Ryan Gajer", 310, 350); 
+    text("Click Space to Begin", 280, 400);
+    text("Click H for Help", 300, 450);
   }
 }
-
 void keyPressed() {
   if (key == 'w' || key == 'W') {
     up = true; // move the paddle up if key 'w' is pressed
@@ -144,6 +157,9 @@ void keyPressed() {
   } else if (key == 'p' || key == 'P') {
     if (looping) noLoop(); // saying if the program is running stop it
     else loop(); // if p is hit again, program will run
+  } else if ( key == ' ') {
+    gameOn = true; // if space key is hit, start the game
+    help = false;
   }
 }
 
