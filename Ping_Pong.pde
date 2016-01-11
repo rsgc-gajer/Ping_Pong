@@ -26,6 +26,8 @@ boolean up2, down2; // up and down of second paddle
 int score = 0; // track the first score
 int score1 = 0; // track the second paddle score
 
+final int p = keyCode; // final variable for pausing the game
+
 void setup() {
   size(800, 600);
 
@@ -33,8 +35,8 @@ void setup() {
   y = height/2; // place y position of ball in middle of screen
   w = 50; // ball width 
   h = 50; // ball height
-  speedX = 4; // x speed of ball
-  speedY = 5; // y speed of ball
+  speedX = 5; // x speed of ball
+  speedY = 6; // y speed of ball
 
   // left paddle
   rectMode(CENTER); // center the rectangle
@@ -49,6 +51,7 @@ void setup() {
 }
 
 void draw() {
+  frameRate(60);
   background(0);
 
   // draw rect in middle
@@ -58,13 +61,13 @@ void draw() {
   // draw the ball 
   fill(255, 0, 0);
   ellipse(x, y, w, h);
-  
+
   // score
   textSize(20);
   fill(255);
   text(score, 100, 50);
   text(score1, width-100, 50);
-  
+
 
   if ( x > width - w/2) { // send ball left if it hits right edge
     score++;
@@ -138,6 +141,9 @@ void keyPressed() {
     up2 = true;
   } else if (keyCode == DOWN) { // move the paddle up if key 'down' is pressed
     down2 = true;
+  } else if (key == 'p' || key == 'P') {
+    if (looping) noLoop(); // saying if the program is running stop it
+    else loop(); // if p is hit again, program will run
   }
 }
 
