@@ -31,6 +31,8 @@ final int p = keyCode; // final variable for pausing the game
 
 boolean gameOn, help; // makes the game begin and creates a starting screen and creates help screen
 
+String s = "For Player 1 use the arrow keys. For Player 2 use W and S. To Go back click 'back'";
+
 
 void setup() {
   size(800, 600);
@@ -158,16 +160,21 @@ void draw() {
   } 
   if (help == true) {
     background(0);
-    text("Test", 250, 500);
+    //text(s, 100, 200, 100, 80);
+    //fill(255);
     stroke(255);
     strokeWeight(3);
     rect(75, 550, 100, 40);
+    text("Back", 45, 560);
     noFill();
   }
 }
 void mousePressed() {
   if ( mouseX > 402 && mouseX < 477 && mouseY > 440 && mouseY < 490) {
     help = true;
+  } else if (mouseX > 75 && mouseX < 175 && mouseY > 550 && mouseY < 590) {
+    help = false;
+    gameOn = false;
   }
 }
 
