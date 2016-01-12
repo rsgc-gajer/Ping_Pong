@@ -29,8 +29,8 @@ int score1 = 0; // track the second paddle score
 
 final int p = keyCode; // final variable for pausing the game
 
-boolean gameOn; // makes the game begin and creates a starting screen
-boolean help; // creates a screen for help
+boolean gameOn, help; // makes the game begin and creates a starting screen and creates help screen
+
 
 void setup() {
   size(800, 600);
@@ -56,6 +56,7 @@ void setup() {
 
 void draw() {
   if (gameOn == true) {
+    noStroke();
     frameRate(60);
     background(0);
 
@@ -134,6 +135,8 @@ void draw() {
       paddleY2 = paddleY2 - paddleS; // move the paddle upwards
     } else if (down2) {
       paddleY2 = paddleY2 + paddleS; // move the paddle downwards
+    } else if (gameOn == false && help == true) {
+      background(0);
     }
   } else if (gameOn == false) {
     background(0); // make the black for the starting screen
@@ -142,9 +145,32 @@ void draw() {
     textSize(25);
     text("By: Ryan Gajer", 310, 350); 
     text("Click Space to Begin", 280, 400);
-    text("Click H for Help", 300, 450);
+    text("Help", 375, 450);
+    stroke(255);
+    strokeWeight(3);
+    rect(402, 440, 75, 50);
+    noFill();
+
+    // draw the mouse for rectangle
+    if (mouseX > 0 && mouseX < 800 && mouseY > 0 && mouseY < 600) {
+      cursor(CROSS);
+    }
+  } 
+  if (help == true) {
+    background(0);
+    text("Test", 250, 500);
+    stroke(255);
+    strokeWeight(3);
+    rect(75, 550, 100, 40);
+    noFill();
   }
 }
+void mousePressed() {
+  if ( mouseX > 402 && mouseX < 477 && mouseY > 440 && mouseY < 490) {
+    help = true;
+  }
+}
+
 void keyPressed() {
   if (key == 'w' || key == 'W') {
     up = true; // move the paddle up if key 'w' is pressed
@@ -159,7 +185,6 @@ void keyPressed() {
     else loop(); // if p is hit again, program will run
   } else if ( key == ' ') {
     gameOn = true; // if space key is hit, start the game
-    help = false;
   }
 }
 
