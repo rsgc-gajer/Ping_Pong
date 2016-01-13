@@ -31,7 +31,7 @@ final int p = keyCode; // final variable for pausing the game
 
 boolean gameOn, help; // makes the game begin and creates a starting screen and creates help screen
 
-String s = "For Player 1 use the arrow keys. For Player 2 use W and S. To Go back click 'back'";
+String s = "For Player 2 use the arrow keys. For Player 1 use W and S. To Go back click 'back'"; // creates on screen text with string variable
 
 
 void setup() {
@@ -160,10 +160,11 @@ void draw() {
   } 
   if (help == true) {
     background(0);
-    //text(s, 100, 200, 100, 80);
-    //fill(255);
+    fill(255);
+    text(s, 300, 400, 300, 400);
     stroke(255);
     strokeWeight(3);
+    noFill();
     rect(75, 550, 100, 40);
     text("Back", 45, 560);
     noFill();
